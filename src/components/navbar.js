@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
 export class navbar extends Component {
+
   render() {
     return (
       <div>
         <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="#">
+            <Link className="navbar-brand" to="/">
               Daily Samachar
             </Link>
             <button
@@ -26,11 +27,11 @@ export class navbar extends Component {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/">
+                  <Link className="nav-link" aria-current="page" to="/">
                     Home
                   </Link>
                 </li>
-                <li className="nav-item"><Link className="nav-link" to="/business">Business</Link></li> 
+                <li className="nav-item"><Link onClick = {this.remount} className="nav-link" to="/business">Business</Link></li> 
                 <li className="nav-item"><Link className="nav-link" to="/entertainment">Entertainment</Link></li> 
                 <li className="nav-item"><Link className="nav-link" to="/general">General</Link></li> 
                 <li className="nav-item"><Link className="nav-link" to="/health">Health</Link></li> 
