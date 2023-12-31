@@ -21,7 +21,7 @@ const App = ()=> {
           <div>
             <NavBar />
             <LoadingBar color="#f11946" progress={setProgress}  />
-            <Switch>
+            < >
               <Route exact path="/" >
                 <News setProgress= {setProgress} apikey = {apikey} key={"general"} pageSize={pageSize}country="in" category="general"/>
               </Route>
@@ -46,7 +46,7 @@ const App = ()=> {
               <Route exact path="/technology" >
                 <News setProgress= {setProgress} apikey = {apikey}key={"technology"} pageSize={pageSize} country="in" category="technology" />
               </Route>
-            </Switch>
+            </>
           </div>
         </Router>
       </>
