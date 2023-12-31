@@ -5,9 +5,7 @@ import News from "./components/News";
 import LoadingBar from "react-top-loading-bar";
 import {
   BrowserRouter as Router,
-  Route,
-  // Routes,
-  Switch
+  Route
 } from "react-router-dom";
 
 const App = ()=> {
