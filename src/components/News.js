@@ -18,9 +18,7 @@ const News = (props) => {
     const updateNews = async () => {
       props.setProgress(10);
       let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page}&pageSize=${props.pageSize}`;
-      {
-        setLoading(true);
-      }
+      setLoading(true);
       let data = await fetch(url);
       props.setProgress(30);
       let parsedata = await data.json();
@@ -31,10 +29,10 @@ const News = (props) => {
       setLoading(false);
       props.setProgress(100);
     };
-    
+
     document.title = `${captalizefirstLetter(props.category)} - Daily Samachar`;
     updateNews();
-    console.log(article.length)
+    console.log(article.length);
   }, []);
 
   const fetchMoreData = async () => {
@@ -48,7 +46,7 @@ const News = (props) => {
     let data = await fetch(url);
     let parsedata = await data.json();
     setArticle(article.concat(parsedata.articles));
-    console.log(article.length)
+    console.log(article.length);
     setTotalResults(parsedata.totalResults);
   };
   return (
@@ -75,7 +73,7 @@ const News = (props) => {
       {loading && <Spinnner />}
 
       <InfiniteScroll
-        dataLength={article.length || 0 }
+        dataLength={article.length}
         next={fetchMoreData}
         hasMore={article.length !== totalResults}
         loader={<Spinnner />}
