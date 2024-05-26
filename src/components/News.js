@@ -9,93 +9,98 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(true);
-  
 
   const captalizefirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-const updateNews = async () => {
-  props.setProgress(10);
-  let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page}&pageSize=${props.pageSize}`;
-  {
-    setLoading(true);
-  }
-  let data = await fetch(url);
-  props.setProgress(30);
-  let parsedata = await data.json();
-  props.setProgress(70);
+  useEffect(() => {
+    const updateNews = async () => {
+      props.setProgress(10);
+      let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page}&pageSize=${props.pageSize}`;
+      {
+        setLoading(true);
+      }
+      let data = await fetch(url);
+      props.setProgress(30);
+      let parsedata = await data.json();
+      props.setProgress(70);
 
-  setArticle(parsedata.articles);
-  setTotalResults(parsedata.totalResults);
-  setLoading(false);
+      setArticle(parsedata.articles);
+      setTotalResults(parsedata.totalResults);
+      setLoading(false);
 
-  props.setProgress(100);
-};
+      props.setProgress(100);
+    };
 
-useEffect(() => {
-  document.title = `${captalizefirstLetter(props.category)} - Daily Samachar`;
-  updateNews();
-}, []);
+    document.title = `${captalizefirstLetter(props.category)} - Daily Samachar`;
+    updateNews();
+  }, []);
 
+  const fetchMoreData = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?country=${
+      props.country
+    }&category=${props.category}&apiKey=${props.apikey}&page=${
+      page + 1
+    }&pageSize=${props.pageSize}`;
+    setPage(page + 1);
 
-const fetchMoreData = async () => {
-  let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page+1}&pageSize=${props.pageSize}`;
-  setPage(page + 1);
-  
-  let data = await fetch(url);
-  let parsedata = await data.json();
-  setArticle(article.concat(parsedata.articles));
-  setTotalResults(parsedata.totalResults);
-};
-return (
-  <>
-    <h1 className="text-center" style={{
-      margin: "35px 0px",
-      marginTop: "90px",
-      fontWeight: "bold",
-      textTransform: "uppercase",
-      fontSize: "2.5rem",
-      fontFamily: "Roboto, sans-serif",
-      textShadow: "1px 2px 3px rgba(0, 0, 0, 0.5)",
-      textAlign: "center",
-      padding: "10px",
+    let data = await fetch(url);
+    let parsedata = await data.json();
+    setArticle(article.concat(parsedata.articles));
+    setTotalResults(parsedata.totalResults);
+  };
+  return (
+    <>
+      <h1
+        className="text-center"
+        style={{
+          margin: "35px 0px",
+          marginTop: "90px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+          fontSize: "2.5rem",
+          fontFamily: "Roboto, sans-serif",
+          textShadow: "1px 2px 3px rgba(0, 0, 0, 0.5)",
+          textAlign: "center",
+          padding: "10px",
 
-      borderRadius: "10px",
-    }} >
-      Daily Samachar - Top {captalizefirstLetter(props.category)} Headlines
-    </h1>
+          borderRadius: "10px",
+        }}
+      >
+        Daily Samachar - Top {captalizefirstLetter(props.category)} Headlines
+      </h1>
 
-    {loading && <Spinnner />}
+      {loading && <Spinnner />}
 
-    <InfiniteScroll
-      dataLength={article.length}
-      next={fetchMoreData}
-      hasMore={article.length !== totalResults}
-      loader={<Spinnner />}
-    >
-      <div className="container">
-        <div className="row">
-          {article.map((element) => {
-            return (
-              <div className="col-md-4" key={element.url}>
-                <NewsItem
-                  title={element.title ? element.title : ""}
-                  description={element.description ? element.description : ""}
-                  imgurl={element.urlToImage}
-                  newsurl={element.url}
-                  author={element.author}
-                  date={element.publishedAt}
-                />
-              </div>
-            );
-          })}
+      <InfiniteScroll
+        dataLength={article.length}
+        next={fetchMoreData}
+        hasMore={article.length !== totalResults}
+        loader={<Spinnner />}
+      >
+        <div className="container">
+          <div className="row">
+            {article.map((element) => {
+              return (
+                <div className="col-md-4" key={element.url}>
+                  <NewsItem
+                    title={element.title ? element.title : ""}
+                    description={element.description ? element.description : ""}
+                    imgurl={element.urlToImage}
+                    newsurl={element.url}
+                    author={element.author}
+                    date={element.publishedAt}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </InfiniteScroll>
-  </>
-);
-        }
+      </InfiniteScroll>
+    </>
+  );
+};
 News.defaultProps = {
   country: "in",
   pageSize: 6,
