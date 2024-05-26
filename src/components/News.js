@@ -29,12 +29,12 @@ const News = (props) => {
       setArticle(parsedata.articles);
       setTotalResults(parsedata.totalResults);
       setLoading(false);
-
       props.setProgress(100);
     };
-
+    
     document.title = `${captalizefirstLetter(props.category)} - Daily Samachar`;
     updateNews();
+    console.log(article.length)
   }, []);
 
   const fetchMoreData = async () => {
@@ -48,6 +48,7 @@ const News = (props) => {
     let data = await fetch(url);
     let parsedata = await data.json();
     setArticle(article.concat(parsedata.articles));
+    console.log(article.length)
     setTotalResults(parsedata.totalResults);
   };
   return (
@@ -74,7 +75,7 @@ const News = (props) => {
       {loading && <Spinnner />}
 
       <InfiniteScroll
-        dataLength={article.length}
+        dataLength={article.length || 0 }
         next={fetchMoreData}
         hasMore={article.length !== totalResults}
         loader={<Spinnner />}
