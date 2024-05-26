@@ -50,7 +50,19 @@ const fetchMoreData = async () => {
 };
 return (
   <>
-    <h1 className="text-center" style={{ margin: "35px 0px" }}>
+    <h1 className="text-center" style={{
+      margin: "35px 0px",
+      marginTop: "90px",
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      fontSize: "2.5rem",
+      fontFamily: "Roboto, sans-serif",
+      textShadow: "1px 2px 3px rgba(0, 0, 0, 0.5)",
+      textAlign: "center",
+      padding: "10px",
+
+      borderRadius: "10px",
+    }} >
       Daily Samachar - Top {captalizefirstLetter(props.category)} Headlines
     </h1>
 
